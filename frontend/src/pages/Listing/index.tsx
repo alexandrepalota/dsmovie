@@ -1,15 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 import MovieCard from "components/MovieCard";
 import Pagination from "components/Navbar/Pagination";
-import { BASE_URL } from 'utils/requests';
+import { useEffect, useState } from "react";
+import { MoviePage } from "types/movie";
+import { BASE_URL } from "utils/requests";
 
 export default function Listing() {
-
-  // WRONG WAY
-  axios.get(`${BASE_URL}/movies?size=12&page=0`)
-    .then(response => {
-      console.log(response.data)
-    })
+  const [pageNumber, setPageNumber] = useState(0);
+  /**
+   * useEffect receives 2 arguments.
+   * The first one is a function to be executed.
+   * The second one is a array of elements to be observed.
+   * It the array is empty, the function will be executed only once, when de component is loaded.
+   */
+  useEffect(() => {
+    axios.get(`${BASE_URL}/movies?size=12&page=1`).then(response => {
+      const data = response.data as MoviePage;
+      console.log(data);
+      setPageNumber(data.number)
+    });
+  }, []);
 
   return (
     <>
@@ -21,11 +31,14 @@ export default function Listing() {
           </div>
           <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
             <MovieCard />
-          </div><div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
             <MovieCard />
-          </div><div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
             <MovieCard />
-          </div><div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
+          </div>
+          <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
             <MovieCard />
           </div>
         </div>
